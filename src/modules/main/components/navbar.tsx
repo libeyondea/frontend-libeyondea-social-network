@@ -60,13 +60,11 @@ const NavbarComponent: React.FC<Props> = () => {
 							<Menu as="div" className="relative inline-block text-left">
 								<div>
 									<Menu.Button className="flex items-center justify-center w-full rounded-md px-2 py-1 text-sm font-medium text-gray-700 hover:bg-gray-100 focus:outline-none">
-										{authCurrent?.user.avatar_url && (
-											<ImageComponent
-												className="rounded-full h-8 w-8"
-												src={authCurrent?.user?.avatar_url}
-												alt={authCurrent?.user?.user_name}
-											/>
-										)}
+										<ImageComponent
+											className="rounded-full h-8 w-8"
+											src={authCurrent?.user?.avatar_url}
+											alt={authCurrent?.user?.user_name}
+										/>
 									</Menu.Button>
 								</div>
 								<Transition

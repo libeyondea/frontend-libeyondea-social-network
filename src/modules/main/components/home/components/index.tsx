@@ -1,7 +1,6 @@
 import BreadcrumbComponent from 'common/components/Breadcrumb/components';
 import PostCardComponent from 'common/components/PostCard/components';
 import config from 'config';
-import httpRequest from 'helpers/httpRequest';
 import useAppSelector from 'hooks/useAppSelector';
 import { useEffect, useState } from 'react';
 import { selectAuthCurrent } from 'store/auth/selectors';
@@ -9,7 +8,7 @@ import { selectAuthCurrent } from 'store/auth/selectors';
 type Props = {};
 
 const HomeComponent: React.FC<Props> = () => {
-	const authCurrent = useAppSelector(selectAuthCurrent);
+	/* const authCurrent = useAppSelector(selectAuthCurrent);
 
 	const [state, setState] = useState({
 		data: {
@@ -18,9 +17,9 @@ const HomeComponent: React.FC<Props> = () => {
 		loading: {
 			posts: false
 		}
-	});
+	}); */
 
-	useEffect(() => {
+	/* useEffect(() => {
 		setState((prevState) => ({
 			...prevState,
 			loading: {
@@ -58,13 +57,13 @@ const HomeComponent: React.FC<Props> = () => {
 					}
 				}));
 			});
-	}, [authCurrent?.token?.access_token]);
+	}, [authCurrent?.token?.access_token]); */
 
 	return (
 		<>
 			<BreadcrumbComponent className="mb-4">Home</BreadcrumbComponent>
 			<div className="grid grid-cols-2 gap-4">
-				{state.loading.posts
+				{/* {state.loading.posts
 					? 'Loading...'
 					: !!state.data.posts.length &&
 					  state.data.posts.map((post: any, index) => (
@@ -76,7 +75,7 @@ const HomeComponent: React.FC<Props> = () => {
 									images={post.images}
 								/>
 							</div>
-					  ))}
+					  ))} */}
 			</div>
 		</>
 	);

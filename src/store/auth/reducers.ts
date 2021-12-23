@@ -1,21 +1,12 @@
 import { createReducer } from '@reduxjs/toolkit';
+import { Me } from 'models/auth';
 import { authCurrentSuccessAction } from './actions';
 
 export type AuthCurrent = {
 	token: {
 		access_token: string;
 	};
-	user: {
-		id: number;
-		first_name: string;
-		last_name: string;
-		user_name: string;
-		email: string;
-		email_verified_at: string | null;
-		avatar_url: string | null;
-		created_at: string | null;
-		updated_at: string | null;
-	};
+	user: Me;
 } | null;
 
 type AuthState = {

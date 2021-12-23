@@ -9,7 +9,7 @@ type Props = {
 	children: JSX.Element;
 };
 
-const CheckAuthComponent: React.FC<Props> = ({ children }) => {
+const AccessControl: React.FC<Props> = ({ children }) => {
 	const location = useLocation();
 	const authCurrent = useAppSelector(selectAuthCurrent);
 	const appInitialized = useAppSelector(selectAppInitialized);
@@ -29,4 +29,4 @@ const CheckAuthComponent: React.FC<Props> = ({ children }) => {
 	return children;
 };
 
-export default CheckAuthComponent;
+export default AccessControl;

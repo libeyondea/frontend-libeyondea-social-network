@@ -1,8 +1,8 @@
 import { createLogger } from 'redux-logger';
 import { createEpicMiddleware } from 'redux-observable';
 import config from 'config';
-import rootReducer from './root-reducer';
-import rootEpic from './root-epic';
+import rootReducer from './rootReducer';
+import rootEpic from './rootEpic';
 import { configureStore } from '@reduxjs/toolkit';
 
 const epicMiddleware = createEpicMiddleware();

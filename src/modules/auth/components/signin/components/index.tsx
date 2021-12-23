@@ -1,4 +1,3 @@
-import httpRequest from 'helpers/httpRequest';
 import { setCookie } from 'helpers/cookies';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
@@ -10,6 +9,7 @@ import config from 'config';
 import { useNavigate, useLocation, Location } from 'react-router-dom';
 import LinkComponent from 'common/components/Link/components';
 import { LockOpenIcon, UserIcon } from '@heroicons/react/outline';
+import authService from 'services/authService';
 
 type Props = {};
 
@@ -28,14 +28,8 @@ const SigninCompoment: React.FC<Props> = () => {
 			password: Yup.string().required('Password is required')
 		}),
 		onSubmit: (values, { setSubmitting, setErrors }) => {
-			httpRequest
-				.post({
-					url: config.API.END_POINT.SIGNIN,
-					data: {
-						user_name: values.user_name,
-						password: values.password
-					}
-				})
+			authService
+				.signin(values)
 				.then((response) => {
 					if (response.data.success) {
 						setCookie(cookiesConstant.COOKIES_KEY_ACCESS_TOKEN, response.data.data.access_token, {
@@ -116,7 +110,7 @@ const SigninCompoment: React.FC<Props> = () => {
 					<div className="flex ml-auto">
 						<LinkComponent
 							to="/"
-							className="inline-flex text-xs font-thin text-gray-500 sm:text-sm dark:text-gray-100 hover:text-gray-700 dark:hover:text-white"
+							className="inline-flex text-xs font-thin text-gray-500 sm:text-sm hover:text-gray-700"
 						>
 							Forgot Your Password?
 						</LinkComponent>

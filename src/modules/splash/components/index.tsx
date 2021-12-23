@@ -1,4 +1,3 @@
-import httpRequest from 'helpers/httpRequest';
 import { getCookie } from 'helpers/cookies';
 import { appInitializedRequestAction } from 'store/app/actions';
 import { authCurrentRequestAction } from 'store/auth/actions';
@@ -15,6 +14,7 @@ import useDidMountEffect from 'hooks/useDidMountEffect';
 import { signout } from 'helpers/auth';
 import { AuthCurrent } from 'store/auth/reducers';
 import { AppInitialized } from 'store/app/reducers';
+import authService from 'services/authService';
 
 type Props = {};
 
@@ -40,11 +40,8 @@ const SplashComponent: React.FC<Props> = () => {
 				navigate(`/${routeConstant.ROUTE_NAME_MAIN}/${routeConstant.ROUTE_NAME_MAIN_HOME}`, { replace: true });
 			}
 		} else if (accessToken) {
-			httpRequest
-				.get({
-					url: config.API.END_POINT.ME,
-					token: accessToken
-				})
+			authService
+				.me()
 				.then((response) => {
 					if (!response.data.success) {
 						signout(navigate, null, changeAuthCurrent);
