@@ -3,16 +3,18 @@ import { Menu, Transition } from '@headlessui/react';
 import ImageComponent from 'common/components/Image/components';
 import LinkComponent from 'common/components/Link/components';
 import { signout } from 'helpers/auth';
-import { authRequestAction } from 'store/auth/actions';
+import { authCurrentRequestAction } from 'store/auth/actions';
 import { appSidebarRequestAction } from 'store/app/actions';
 import classNames from 'classnames';
 import { selectAppSidebar } from 'store/app/selectors';
-import { selectAuth } from 'store/auth/selectors';
+import { selectAuthCurrent } from 'store/auth/selectors';
 import * as appStateConstant from 'constants/appState';
 import useAppDispatch from 'hooks/useAppDispatch';
 import useAppSelector from 'hooks/useAppSelector';
 import { useNavigate } from 'react-router-dom';
 import { AiOutlineMenu } from 'react-icons/ai';
+import { AuthCurrent } from 'store/auth/reducers';
+import { AppSidebar } from 'store/app/reducers';
 
 type Props = {};
 
@@ -20,10 +22,10 @@ const NavbarComponent: React.FC<Props> = () => {
 	const navigate = useNavigate();
 	const dispatch = useAppDispatch();
 	const appSidebar = useAppSelector(selectAppSidebar);
-	const auth = useAppSelector(selectAuth);
+	const authCurrent = useAppSelector(selectAuthCurrent);
 
-	const changeAppSidebar = (state: any) => dispatch(appSidebarRequestAction(state));
-	const changeAuth = (state: any) => dispatch(authRequestAction(state));
+	const changeAppSidebar = (state: AppSidebar) => dispatch(appSidebarRequestAction(state));
+	const changeAuthCurrent = (state: AuthCurrent) => dispatch(authCurrentRequestAction(state));
 
 	return (
 		<nav className="navbar bg-white shadow-lg fixed z-20 inset-x-0 top-0 transition-all ease-in-out duration-500">
@@ -58,11 +60,13 @@ const NavbarComponent: React.FC<Props> = () => {
 							<Menu as="div" className="relative inline-block text-left">
 								<div>
 									<Menu.Button className="flex items-center justify-center w-full rounded-md px-2 py-1 text-sm font-medium text-gray-700 hover:bg-gray-100 focus:outline-none">
-										<ImageComponent
-											className="rounded-full h-8 w-8"
-											src={auth?.user?.avatar_url}
-											alt={auth?.user?.user_name}
-										/>
+										{authCurrent?.user.avatar_url && (
+											<ImageComponent
+												className="rounded-full h-8 w-8"
+												src={authCurrent?.user?.avatar_url}
+												alt={authCurrent?.user?.user_name}
+											/>
+										)}
 									</Menu.Button>
 								</div>
 								<Transition
@@ -96,7 +100,7 @@ const NavbarComponent: React.FC<Props> = () => {
 														'bg-gray-300 text-gray-700': active,
 														'text-gray-900': !active
 													})}
-													onClick={() => signout(navigate, auth, changeAuth)}
+													onClick={() => signout(navigate, authCurrent, changeAuthCurrent)}
 												>
 													<span>Logout</span>
 												</button>

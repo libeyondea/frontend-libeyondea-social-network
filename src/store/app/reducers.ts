@@ -2,9 +2,13 @@ import * as appStateConstant from 'constants/appState';
 import { createReducer } from '@reduxjs/toolkit';
 import { appInitializedSuccessAction, appSidebarSuccessAction } from './actions';
 
+export type AppInitialized = typeof appStateConstant.APP_STATE_INITIALIZED_YES | typeof appStateConstant.APP_STATE_INITIALIZED_NO;
+
+export type AppSidebar = typeof appStateConstant.APP_STATE_SIDEBAR_YES | typeof appStateConstant.APP_STATE_SIDEBAR_NO;
+
 type AppState = {
-	initialized: typeof appStateConstant.APP_STATE_INITIALIZED_YES | typeof appStateConstant.APP_STATE_INITIALIZED_NO;
-	sidebar: typeof appStateConstant.APP_STATE_SIDEBAR_YES | typeof appStateConstant.APP_STATE_SIDEBAR_NO;
+	initialized: AppInitialized;
+	sidebar: AppSidebar;
 };
 
 const initialState: AppState = {

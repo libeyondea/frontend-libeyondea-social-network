@@ -14,6 +14,7 @@ import NavLinkComponent from 'common/components/NavLink/components';
 import { selectAppSidebar } from 'store/app/selectors';
 import useAppSelector from 'hooks/useAppSelector';
 import { AiFillHome, AiOutlineMenu } from 'react-icons/ai';
+import { AppSidebar } from 'store/app/reducers';
 
 type Props = {};
 
@@ -22,7 +23,7 @@ const SidebarComponent: React.FC<Props> = () => {
 	const dispatch = useAppDispatch();
 	const appSidebar = useAppSelector(selectAppSidebar);
 
-	const changeAppSidebar = (state: any) => dispatch(appSidebarRequestAction(state));
+	const changeAppSidebar = (state: AppSidebar) => dispatch(appSidebarRequestAction(state));
 
 	return (
 		<div className="sidebar flex">

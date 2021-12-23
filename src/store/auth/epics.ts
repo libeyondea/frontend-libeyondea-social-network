@@ -1,10 +1,10 @@
 import { filter, map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { Action } from '@reduxjs/toolkit';
-import { authRequestAction, authSuccessAction } from './actions';
+import { authCurrentRequestAction, authCurrentSuccessAction } from './actions';
 
-export const authEpic = (action$: Observable<Action>): Observable<Action> =>
+export const authCurrentEpic = (action$: Observable<Action>): Observable<Action> =>
 	action$.pipe(
-		filter(authRequestAction.match),
-		map((action) => authSuccessAction(action.payload.current))
+		filter(authCurrentRequestAction.match),
+		map((action) => authCurrentSuccessAction(action.payload.current))
 	);

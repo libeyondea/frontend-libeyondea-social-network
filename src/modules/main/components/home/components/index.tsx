@@ -4,12 +4,12 @@ import config from 'config';
 import httpRequest from 'helpers/httpRequest';
 import useAppSelector from 'hooks/useAppSelector';
 import { useEffect, useState } from 'react';
-import { selectAuth } from 'store/auth/selectors';
+import { selectAuthCurrent } from 'store/auth/selectors';
 
 type Props = {};
 
 const HomeComponent: React.FC<Props> = () => {
-	const auth = useAppSelector(selectAuth);
+	const authCurrent = useAppSelector(selectAuthCurrent);
 
 	const [state, setState] = useState({
 		data: {
@@ -31,7 +31,7 @@ const HomeComponent: React.FC<Props> = () => {
 		httpRequest
 			.get({
 				url: config.API.END_POINT.CRUD_POST,
-				token: auth?.token?.access_token
+				token: authCurrent?.token?.access_token
 			})
 			.then((response) => {
 				if (!response.data.success) {
@@ -58,7 +58,7 @@ const HomeComponent: React.FC<Props> = () => {
 					}
 				}));
 			});
-	}, [auth?.token?.access_token]);
+	}, [authCurrent?.token?.access_token]);
 
 	return (
 		<>

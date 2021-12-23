@@ -1,10 +1,10 @@
 import httpRequest from 'helpers/httpRequest';
 import { getCookie } from 'helpers/cookies';
 import { appInitializedRequestAction } from 'store/app/actions';
-import { authRequestAction } from 'store/auth/actions';
+import { authCurrentRequestAction } from 'store/auth/actions';
 import ImageComponent from 'common/components/Image/components';
 import config from 'config';
-import { selectAuth } from 'store/auth/selectors';
+import { selectAuthCurrent } from 'store/auth/selectors';
 import * as appStateConstant from 'constants/appState';
 import * as cookiesConstant from 'constants/cookies';
 import * as routeConstant from 'constants/route';
@@ -13,6 +13,8 @@ import useAppSelector from 'hooks/useAppSelector';
 import { useNavigate, useLocation, Location } from 'react-router-dom';
 import useDidMountEffect from 'hooks/useDidMountEffect';
 import { signout } from 'helpers/auth';
+import { AuthCurrent } from 'store/auth/reducers';
+import { AppInitialized } from 'store/app/reducers';
 
 type Props = {};
 
@@ -21,17 +23,17 @@ const SplashComponent: React.FC<Props> = () => {
 	const location = useLocation();
 	const from = (location.state as { from: Location })?.from;
 	const dispatch = useAppDispatch();
-	const auth = useAppSelector(selectAuth);
+	const authCurrent = useAppSelector(selectAuthCurrent);
 
-	const changeAppInitialized = (state: any) => dispatch(appInitializedRequestAction(state));
-	const changeAuth = (state: any) => dispatch(authRequestAction(state));
+	const changeAppInitialized = (state: AppInitialized) => dispatch(appInitializedRequestAction(state));
+	const changeAuthCurrent = (state: AuthCurrent) => dispatch(authCurrentRequestAction(state));
 
 	useDidMountEffect(() => {
 		changeAppInitialized(appStateConstant.APP_STATE_INITIALIZED_YES);
 		const accessToken = getCookie(cookiesConstant.COOKIES_KEY_ACCESS_TOKEN);
 		const initialUrl = from?.pathname;
 
-		if (auth) {
+		if (authCurrent) {
 			if (initialUrl) {
 				navigate(initialUrl, { replace: true });
 			} else {
@@ -45,10 +47,10 @@ const SplashComponent: React.FC<Props> = () => {
 				})
 				.then((response) => {
 					if (!response.data.success) {
-						signout(navigate, null, changeAuth);
+						signout(navigate, null, changeAuthCurrent);
 						return;
 					}
-					changeAuth({
+					changeAuthCurrent({
 						token: {
 							access_token: accessToken
 						},
@@ -64,10 +66,10 @@ const SplashComponent: React.FC<Props> = () => {
 				})
 				.catch((error) => {
 					console.log(error);
-					signout(navigate, null, changeAuth);
+					signout(navigate, null, changeAuthCurrent);
 				});
 		} else {
-			changeAuth(null);
+			changeAuthCurrent(null);
 			if (initialUrl) {
 				navigate(initialUrl, { replace: true });
 			} else {

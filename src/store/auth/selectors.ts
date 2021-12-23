@@ -1,3 +1,3 @@
 import { RootState } from 'store';
 
-export const selectAuth = (state: RootState) => state.authState.current;
+export const selectAuthCurrent = (state: RootState) => state.authState.current;
