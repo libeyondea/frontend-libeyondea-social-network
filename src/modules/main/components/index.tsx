@@ -3,7 +3,6 @@ import SidebarComponent from './sidebar';
 import MainRouter from './router';
 import classNames from 'classnames';
 import { selectAppSidebar } from 'store/app/selectors';
-import * as appStateConstant from 'constants/appState';
 import useAppSelector from 'hooks/useAppSelector';
 import { useRoutes } from 'react-router-dom';
 
@@ -16,13 +15,18 @@ const MainComponent: React.FC<Props> = () => {
 	return (
 		<div
 			className={classNames({
-				'sidebar-collapse': appSidebar === appStateConstant.APP_STATE_SIDEBAR_YES
+				'sidebar-collapse': appSidebar
 			})}
 		>
 			<NavbarComponent />
 			<SidebarComponent />
 			<div className="main mt-14 transition-all ease-in-out duration-500">
-				<div className="xl:container mx-auto p-4">{useRoutes(MainRouter)}</div>
+				<div className="xl:container mx-auto p-4">
+					<div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4">
+						<div className="col-span-2 sm:col-span-2 md:col-span-3">{useRoutes(MainRouter)}</div>
+						<div className="col-span-2 sm:col-span-1 md:col-span-1">Aside</div>
+					</div>
+				</div>
 			</div>
 		</div>
 	);

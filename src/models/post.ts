@@ -1,3 +1,4 @@
+import { Image } from './image';
 import { User } from './user';
 
 export interface Post {
@@ -7,10 +8,5 @@ export interface Post {
 	created_at: string | null;
 	updated_at: string | null;
 	user: User;
-	images: Array<{
-		id: number;
-		url: string;
-		created_at: string | null;
-		updated_at: string | null;
-	}>;
+	images: Image[];
 }

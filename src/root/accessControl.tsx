@@ -1,4 +1,3 @@
-import * as appStateConstant from 'constants/appState';
 import { selectAuthCurrent } from 'store/auth/selectors';
 import { selectAppInitialized } from 'store/app/selectors';
 import * as routeConstant from 'constants/route';
@@ -14,7 +13,7 @@ const AccessControl: React.FC<Props> = ({ children }) => {
 	const authCurrent = useAppSelector(selectAuthCurrent);
 	const appInitialized = useAppSelector(selectAppInitialized);
 
-	if (location.pathname !== routeConstant.ROUTE_NAME_SPLASH && appInitialized !== appStateConstant.APP_STATE_INITIALIZED_YES) {
+	if (location.pathname !== routeConstant.ROUTE_NAME_SPLASH && !appInitialized) {
 		return <Navigate to={`${routeConstant.ROUTE_NAME_SPLASH}`} state={{ from: location }} />;
 	} else if (location.pathname.indexOf(routeConstant.ROUTE_NAME_AUTH) > -1 && authCurrent) {
 		return <Navigate to={`/${routeConstant.ROUTE_NAME_MAIN}/${routeConstant.ROUTE_NAME_MAIN_HOME}`} />;

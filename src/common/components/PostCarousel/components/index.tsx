@@ -2,9 +2,10 @@ import { FaChevronCircleLeft, FaChevronCircleRight } from 'react-icons/fa';
 import classNames from 'classnames';
 import ImageComponent from 'common/components/Image/components';
 import { useState } from 'react';
+import { Image } from 'models/image';
 
 type Props = {
-	images: Array<any>;
+	images: Image[];
 };
 
 const PostCarouselComponent: React.FC<Props> = ({ images }) => {
@@ -46,7 +47,7 @@ const PostCarouselComponent: React.FC<Props> = ({ images }) => {
 				{imageSourcesToDisplay.map((image, index) => (
 					<ImageComponent
 						src={image.url}
-						className={classNames('max-h-96 w-full object-cover', { block: index === 2, hidden: index !== 2 })}
+						className={classNames('max-h-96 w-full object-cover', { block: index === 0, hidden: index !== 0 })}
 						key={index}
 					/>
 				))}

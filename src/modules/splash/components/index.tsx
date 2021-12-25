@@ -4,7 +4,6 @@ import { authCurrentRequestAction } from 'store/auth/actions';
 import ImageComponent from 'common/components/Image/components';
 import config from 'config';
 import { selectAuthCurrent } from 'store/auth/selectors';
-import * as appStateConstant from 'constants/appState';
 import * as cookiesConstant from 'constants/cookies';
 import * as routeConstant from 'constants/route';
 import useAppDispatch from 'hooks/useAppDispatch';
@@ -12,8 +11,6 @@ import useAppSelector from 'hooks/useAppSelector';
 import { useNavigate, useLocation, Location } from 'react-router-dom';
 import useDidMountEffect from 'hooks/useDidMountEffect';
 import { signout } from 'helpers/auth';
-import { AuthCurrent } from 'store/auth/reducers';
-import { AppInitialized } from 'store/app/reducers';
 import authService from 'services/authService';
 
 type Props = {};
@@ -25,11 +22,8 @@ const SplashComponent: React.FC<Props> = () => {
 	const dispatch = useAppDispatch();
 	const authCurrent = useAppSelector(selectAuthCurrent);
 
-	const changeAppInitialized = (state: AppInitialized) => dispatch(appInitializedRequestAction(state));
-	const changeAuthCurrent = (state: AuthCurrent) => dispatch(authCurrentRequestAction(state));
-
 	useDidMountEffect(() => {
-		changeAppInitialized(appStateConstant.APP_STATE_INITIALIZED_YES);
+		dispatch(appInitializedRequestAction(true));
 		const accessToken = getCookie(cookiesConstant.COOKIES_KEY_ACCESS_TOKEN);
 		const initialUrl = from?.pathname;
 
@@ -44,15 +38,10 @@ const SplashComponent: React.FC<Props> = () => {
 				.me()
 				.then((response) => {
 					if (!response.data.success) {
-						signout(navigate, null, changeAuthCurrent);
+						signout(navigate);
 						return;
 					}
-					changeAuthCurrent({
-						token: {
-							access_token: accessToken
-						},
-						user: response.data.data
-					});
+					dispatch(authCurrentRequestAction(response.data.data));
 					if (initialUrl) {
 						navigate(initialUrl, { replace: true });
 					} else {
@@ -63,10 +52,10 @@ const SplashComponent: React.FC<Props> = () => {
 				})
 				.catch((error) => {
 					console.log(error);
-					signout(navigate, null, changeAuthCurrent);
+					signout(navigate);
 				});
 		} else {
-			changeAuthCurrent(null);
+			dispatch(authCurrentRequestAction(null));
 			if (initialUrl) {
 				navigate(initialUrl, { replace: true });
 			} else {

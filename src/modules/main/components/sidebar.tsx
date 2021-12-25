@@ -4,7 +4,6 @@ import { TableIcon, CogIcon, DotsHorizontalIcon } from '@heroicons/react/outline
 import { appSidebarRequestAction } from 'store/app/actions';
 import ImageComponent from 'common/components/Image/components';
 import config from 'config';
-import * as appStateConstant from 'constants/appState';
 import * as routeConstant from 'constants/route';
 import useAppDispatch from 'hooks/useAppDispatch';
 import { useLocation } from 'react-router-dom';
@@ -14,7 +13,6 @@ import NavLinkComponent from 'common/components/NavLink/components';
 import { selectAppSidebar } from 'store/app/selectors';
 import useAppSelector from 'hooks/useAppSelector';
 import { AiFillHome, AiOutlineMenu } from 'react-icons/ai';
-import { AppSidebar } from 'store/app/reducers';
 
 type Props = {};
 
@@ -23,13 +21,11 @@ const SidebarComponent: React.FC<Props> = () => {
 	const dispatch = useAppDispatch();
 	const appSidebar = useAppSelector(selectAppSidebar);
 
-	const changeAppSidebar = (state: AppSidebar) => dispatch(appSidebarRequestAction(state));
-
 	return (
 		<div className="sidebar flex">
 			<div
 				className="sidebar-event fixed inset-0 z-20 transition-opacity bg-black opacity-50 lg:hidden block"
-				onClick={() => changeAppSidebar(appStateConstant.APP_STATE_SIDEBAR_YES)}
+				onClick={() => dispatch(appSidebarRequestAction(true))}
 			></div>
 			<div
 				className={classNames(
@@ -41,13 +37,7 @@ const SidebarComponent: React.FC<Props> = () => {
 						<div className="flex">
 							<button
 								className="text-gray-300 inline-flex items-center justify-center rounded-md focus:outline-none"
-								onClick={() =>
-									changeAppSidebar(
-										appSidebar === appStateConstant.APP_STATE_SIDEBAR_YES
-											? appStateConstant.APP_STATE_SIDEBAR_NO
-											: appStateConstant.APP_STATE_SIDEBAR_YES
-									)
-								}
+								onClick={() => dispatch(appSidebarRequestAction(!appSidebar))}
 							>
 								<AiOutlineMenu className="h-6 w-6" />
 							</button>

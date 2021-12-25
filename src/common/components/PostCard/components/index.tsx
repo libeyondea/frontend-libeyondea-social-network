@@ -1,26 +1,24 @@
 import ImageComponent from 'common/components/Image/components';
 import { BsBookmark, BsChat, BsHeart, BsThreeDots } from 'react-icons/bs';
 import PostCarouselComponent from 'common/components/PostCarousel/components';
+import { Post } from 'models/post';
 
 type Props = {
-	avatarUrl: string;
-	userName: string;
-	content: string;
-	images: Array<any>;
+	post: Post;
 };
 
-const PostCardComponent: React.FC<Props> = ({ avatarUrl, userName, content, images }) => {
+const PostCardComponent: React.FC<Props> = ({ post }) => {
 	return (
 		<div className="shadow-lg rounded-md bg-white w-full">
 			<div className="flex items-center justify-between p-4">
 				<div className="flex items-center flex-grow flex-shrink">
 					<a href="#!" className="flex-none">
-						<ImageComponent src={avatarUrl} className="mx-auto rounded-full h-10 w-10" />
+						<ImageComponent src={post.user.avatar_url} className="mx-auto rounded-full h-10 w-10" />
 					</a>
 					<div className="flex items-center flex-grow flex-shrink ml-4 text-sm">
 						<span className="text-gray-800 font-medium">
 							<a href="#!" className="block relative">
-								{userName}
+								{post.user.user_name}
 							</a>
 						</span>
 					</div>
@@ -29,7 +27,7 @@ const PostCardComponent: React.FC<Props> = ({ avatarUrl, userName, content, imag
 					<BsThreeDots className="w-6 h-6" />
 				</div>
 			</div>
-			<PostCarouselComponent images={images} />
+			{!!post.images.length && <PostCarouselComponent images={post.images} />}
 			<div className="p-4">
 				<div className="flex items-center justify-between mb-3">
 					<div className="flex items-center">
@@ -49,10 +47,10 @@ const PostCardComponent: React.FC<Props> = ({ avatarUrl, userName, content, imag
 					<div className="text-sm">
 						<span className="mr-1">
 							<a href="#!" className="leading-none font-medium">
-								{userName}
+								{post.user.user_name}
 							</a>
 						</span>
-						<span>{content}</span>
+						<span>{post.content}</span>
 					</div>
 					<div className="flex">
 						<a href="#!" className="text-gray-400 text-sm">

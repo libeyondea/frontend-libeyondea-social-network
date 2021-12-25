@@ -1,16 +1,17 @@
 import http from 'helpers/http';
 import config from 'config';
 import { Me, Signin, Token } from 'models/auth';
+import { ResponseData } from 'models/response';
 
 const authService = {
-	me: (token?: string) => {
-		return http(token).get<{ success: boolean; data: Me }>(config.API.END_POINT.ME);
+	me: () => {
+		return http.get<ResponseData<Me>>(config.API.END_POINT.ME);
 	},
 	signin: (data: Signin) => {
-		return http().post<{ success: boolean; data: Token }>(config.API.END_POINT.SIGNIN, data);
+		return http.post<ResponseData<Token>>(config.API.END_POINT.SIGNIN, data);
 	},
-	signout: (token?: string) => {
-		return http(token).post<{ success: boolean; data: any }>(config.API.END_POINT.SIGNOUT);
+	signout: () => {
+		return http.post<ResponseData<any>>(config.API.END_POINT.SIGNOUT);
 	}
 };
 
