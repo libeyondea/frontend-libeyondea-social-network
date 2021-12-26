@@ -10,10 +10,9 @@ export const signout = (navigate: NavigateFunction) => {
 	if (getCookie(cookiesConstant.COOKIES_KEY_ACCESS_TOKEN)) {
 		authService
 			.signout()
-			.then(() => {
-				removeCookie(cookiesConstant.COOKIES_KEY_ACCESS_TOKEN);
-			})
-			.catch(() => {});
+			.then(() => {})
+			.catch(() => {})
+			.finally(() => removeCookie(cookiesConstant.COOKIES_KEY_ACCESS_TOKEN));
 	}
 	store.dispatch(authCurrentRequestAction(null));
 	navigate(`/${routeConstant.ROUTE_NAME_AUTH}/${routeConstant.ROUTE_NAME_AUTH_SIGNIN}`);

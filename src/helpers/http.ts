@@ -14,6 +14,10 @@ const instance = axios.create({
 
 instance.interceptors.request.use(
 	(config: AxiosRequestConfig) => {
+		const accessToken = getCookie(cookiesConstant.COOKIES_KEY_ACCESS_TOKEN);
+		if (config.headers && !config.headers.Authorization && accessToken) {
+			config.headers.Authorization = `Bearer ${accessToken}`;
+		}
 		return config;
 	},
 	(error) => {
@@ -31,47 +35,47 @@ instance.interceptors.response.use(
 );
 
 const http = {
-	get: <T>(url: string, params?: any): Promise<AxiosResponse<T>> => {
+	get: <T>(url: string, params?: any, token?: string): Promise<AxiosResponse<T>> => {
 		return instance.request<T>({
 			method: 'GET',
 			url: url,
 			params: params,
 			headers: {
-				Authorization: `Bearer ${getCookie(cookiesConstant.COOKIES_KEY_ACCESS_TOKEN)}`
+				...(token && { Authorization: `Bearer ${token}` })
 			}
 		});
 	},
-	post: <T>(url: string, data?: any): Promise<AxiosResponse<T>> => {
+	post: <T>(url: string, data?: any, token?: string): Promise<AxiosResponse<T>> => {
 		return instance.request<T>({
 			method: 'POST',
 			url: url,
 			data: data,
 			headers: {
-				Authorization: `Bearer ${getCookie(cookiesConstant.COOKIES_KEY_ACCESS_TOKEN)}`
+				...(token && { Authorization: `Bearer ${token}` })
 			}
 		});
 	},
-	put: <T>(url: string, data?: any): Promise<AxiosResponse<T>> => {
+	put: <T>(url: string, data?: any, token?: string): Promise<AxiosResponse<T>> => {
 		return instance.request<T>({
 			method: 'PUT',
 			url: url,
 			data: data,
 			headers: {
-				Authorization: `Bearer ${getCookie(cookiesConstant.COOKIES_KEY_ACCESS_TOKEN)}`
+				...(token && { Authorization: `Bearer ${token}` })
 			}
 		});
 	},
-	delete: <T>(url: string, params?: any): Promise<AxiosResponse<T>> => {
+	delete: <T>(url: string, params?: any, token?: string): Promise<AxiosResponse<T>> => {
 		return instance.request<T>({
 			method: 'DELETE',
 			url: url,
 			params: params,
 			headers: {
-				Authorization: `Bearer ${getCookie(cookiesConstant.COOKIES_KEY_ACCESS_TOKEN)}`
+				...(token && { Authorization: `Bearer ${token}` })
 			}
 		});
 	},
-	upload: <T>(url: string, files?: any, data?: any): Promise<AxiosResponse<T>> => {
+	upload: <T>(url: string, files?: any, data?: any, token?: string): Promise<AxiosResponse<T>> => {
 		const formData = new FormData();
 		if (data) {
 			for (let field in data) {
@@ -91,7 +95,7 @@ const http = {
 			data: formData,
 			headers: {
 				'Content-Type': 'multipart/form-data',
-				Authorization: `Bearer ${getCookie(cookiesConstant.COOKIES_KEY_ACCESS_TOKEN)}`
+				...(token && { Authorization: `Bearer ${token}` })
 			}
 		});
 	}
