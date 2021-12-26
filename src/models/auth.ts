@@ -5,6 +5,15 @@ export interface Signin {
 	password: string;
 }
 
+export interface Signup {
+	first_name: string;
+	last_name: string;
+	user_name: string;
+	email: string;
+	password: string;
+	password_confirmation: string;
+}
+
 export interface Me extends User {}
 
 export interface Token {

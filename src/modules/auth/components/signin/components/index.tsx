@@ -40,7 +40,7 @@ const SigninCompoment: React.FC<Props> = () => {
 				})
 				.catch((error) => {
 					console.log(error.response);
-					if (error.response?.status === 400) {
+					if (error.response?.status === 422) {
 						setErrors({
 							user_name: error.response?.data?.message,
 							password: error.response?.data?.message
@@ -131,6 +131,22 @@ const SigninCompoment: React.FC<Props> = () => {
 					</button>
 				</div>
 			</form>
+			<div className="relative my-6">
+				<div className="absolute inset-0 flex items-center">
+					<div className="w-full border-t border-gray-400"></div>
+				</div>
+				<div className="relative flex justify-center text-sm">
+					<span className="px-2 text-neutral-700 bg-white leading-none"> Or continue with </span>
+				</div>
+			</div>
+			<div className="flex items-center justify-center">
+				<span className="leading-none">
+					Do you have an account?
+					<LinkComponent className="text-blue-700 ml-1" to="/auth/signup">
+						Signup
+					</LinkComponent>
+				</span>
+			</div>
 		</CardComponent>
 	);
 };

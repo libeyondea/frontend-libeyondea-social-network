@@ -11,6 +11,7 @@ import useAppDispatch from 'hooks/useAppDispatch';
 import useAppSelector from 'hooks/useAppSelector';
 import { useNavigate } from 'react-router-dom';
 import { AiOutlineMenu } from 'react-icons/ai';
+import * as routeConstant from 'constants/route';
 
 type Props = {};
 
@@ -68,6 +69,19 @@ const NavbarComponent: React.FC<Props> = () => {
 											{({ active }) => (
 												<LinkComponent
 													to="/"
+													className={classNames('block px-4 py-2 rounded-md text-md', {
+														'bg-gray-300 text-gray-700': active,
+														'text-gray-900': !active
+													})}
+												>
+													<span>Profile</span>
+												</LinkComponent>
+											)}
+										</Menu.Item>
+										<Menu.Item>
+											{({ active }) => (
+												<LinkComponent
+													to={`/${routeConstant.ROUTE_NAME_MAIN}/${routeConstant.ROUTE_NAME_MAIN_SETTING}`}
 													className={classNames('block px-4 py-2 rounded-md text-md', {
 														'bg-gray-300 text-gray-700': active,
 														'text-gray-900': !active
