@@ -8,6 +8,7 @@ import LinkComponent from 'common/components/Link/components';
 import authService from 'services/authService';
 import { FaRegUser } from 'react-icons/fa';
 import { MdLockOutline, MdMailOutline } from 'react-icons/md';
+import { AiOutlineLoading3Quarters } from 'react-icons/ai';
 
 type Props = {};
 
@@ -24,32 +25,37 @@ const SignupComponent: React.FC<Props> = () => {
 			password_confirmation: ''
 		},
 		validationSchema: Yup.object({
-			first_name: Yup.string().required('First name is required'),
-			last_name: Yup.string().required('Last name is required'),
+			first_name: Yup.string()
+				.required('The first name is required')
+				.max(20, 'The first name must not be greater than 20 characters'),
+			last_name: Yup.string()
+				.required('The last name is required')
+				.max(20, 'The last name must not be greater than 20 characters'),
 			email: Yup.string().required('Email is required'),
-			user_name: Yup.string().required('User name is required'),
-			password: Yup.string().required('Password is required'),
-			password_confirmation: Yup.string().required('Password confirmation is required')
+			user_name: Yup.string()
+				.required('The user name is required')
+				.min(3, 'The user name must be at least 3 characters')
+				.max(20, 'The user name must not be greater than 20 characters'),
+			password: Yup.string()
+				.required('The password is required')
+				.min(6, 'The password must be at least 6 characters')
+				.max(66, 'The password must not be greater than 66 characters'),
+			password_confirmation: Yup.string()
+				.oneOf([Yup.ref('password')], 'The password confirmation does not match')
+				.required('The password confirmation is required')
 		}),
 		onSubmit: (values, { setSubmitting, setErrors }) => {
 			authService
 				.signup(values)
 				.then((response) => {
 					if (response.data.success) {
-						navigate(`/${routeConstant.ROUTE_NAME_AUTH}/${routeConstant.ROUTE_NAME_AUTH_SIGNUP}`);
+						navigate(`/${routeConstant.ROUTE_NAME_AUTH}/${routeConstant.ROUTE_NAME_AUTH_SIGNIN}`);
 					}
 				})
 				.catch((error) => {
 					console.log(error.response);
 					if (error.response?.status === 422) {
-						setErrors({
-							first_name: error.response?.data?.errors?.first_name,
-							last_name: error.response?.data?.errors?.last_name,
-							user_name: error.response?.data?.errors?.user_name,
-							email: error.response?.data?.errors?.email,
-							password: error.response?.data?.errors?.password,
-							password_confirmation: error.response?.data?.errors?.password_confirmation
-						});
+						setErrors(error.response?.data?.errors);
 					}
 				})
 				.finally(() => {
@@ -73,7 +79,7 @@ const SignupComponent: React.FC<Props> = () => {
 							type="text"
 							placeholder="Enter first name"
 							className={classNames(
-								'rounded-r-lg flex-1 appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent',
+								'rounded-r-lg flex-1 appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-sm focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent',
 								{
 									'is-invalid': formik.errors.first_name && formik.touched.first_name
 								}
@@ -86,7 +92,7 @@ const SignupComponent: React.FC<Props> = () => {
 						/>
 					</div>
 					{formik.errors.first_name && formik.touched.first_name && (
-						<div className="text-red-700 mt-1">{formik.errors.first_name}</div>
+						<div className="text-red-700 mt-1 text-sm">{formik.errors.first_name}</div>
 					)}
 				</div>
 				<div className="flex flex-col mb-4">
@@ -101,7 +107,7 @@ const SignupComponent: React.FC<Props> = () => {
 							type="text"
 							placeholder="Enter last name"
 							className={classNames(
-								'rounded-r-lg flex-1 appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent',
+								'rounded-r-lg flex-1 appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-sm focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent',
 								{
 									'is-invalid': formik.errors.last_name && formik.touched.last_name
 								}
@@ -114,7 +120,7 @@ const SignupComponent: React.FC<Props> = () => {
 						/>
 					</div>
 					{formik.errors.last_name && formik.touched.last_name && (
-						<div className="text-red-700 mt-1">{formik.errors.last_name}</div>
+						<div className="text-red-700 mt-1 text-sm">{formik.errors.last_name}</div>
 					)}
 				</div>
 				<div className="flex flex-col mb-4">
@@ -129,7 +135,7 @@ const SignupComponent: React.FC<Props> = () => {
 							type="text"
 							placeholder="Enter user name"
 							className={classNames(
-								'rounded-r-lg flex-1 appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent',
+								'rounded-r-lg flex-1 appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-sm focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent',
 								{
 									'is-invalid': formik.errors.user_name && formik.touched.user_name
 								}
@@ -142,7 +148,7 @@ const SignupComponent: React.FC<Props> = () => {
 						/>
 					</div>
 					{formik.errors.user_name && formik.touched.user_name && (
-						<div className="text-red-700 mt-1">{formik.errors.user_name}</div>
+						<div className="text-red-700 mt-1 text-sm">{formik.errors.user_name}</div>
 					)}
 				</div>
 				<div className="flex flex-col mb-4">
@@ -157,7 +163,7 @@ const SignupComponent: React.FC<Props> = () => {
 							type="text"
 							placeholder="Enter email"
 							className={classNames(
-								'rounded-r-lg flex-1 appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent',
+								'rounded-r-lg flex-1 appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-sm focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent',
 								{
 									'is-invalid': formik.errors.email && formik.touched.email
 								}
@@ -170,10 +176,10 @@ const SignupComponent: React.FC<Props> = () => {
 						/>
 					</div>
 					{formik.errors.email && formik.touched.email && (
-						<div className="text-red-700 mt-1">{formik.errors.email}</div>
+						<div className="text-red-700 mt-1 text-sm">{formik.errors.email}</div>
 					)}
 				</div>
-				<div className="flex flex-col mb-6">
+				<div className="flex flex-col mb-4">
 					<label htmlFor="Password" className="block text-sm font-medium text-gray-600 mb-1">
 						Password
 					</label>
@@ -185,7 +191,7 @@ const SignupComponent: React.FC<Props> = () => {
 							type="password"
 							placeholder="Enter password"
 							className={classNames(
-								'rounded-r-lg flex-1 appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent',
+								'rounded-r-lg flex-1 appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-sm focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent',
 								{
 									'is-invalid': formik.errors.password && formik.touched.password
 								}
@@ -198,10 +204,10 @@ const SignupComponent: React.FC<Props> = () => {
 						/>
 					</div>
 					{formik.errors.password && formik.touched.password && (
-						<div className="text-red-700 mt-1">{formik.errors.password}</div>
+						<div className="text-red-700 mt-1 text-sm">{formik.errors.password}</div>
 					)}
 				</div>
-				<div className="flex flex-col mb-6">
+				<div className="flex flex-col mb-4">
 					<label htmlFor="password_confirmation" className="block text-sm font-medium text-gray-600 mb-1">
 						Password confirmation
 					</label>
@@ -213,7 +219,7 @@ const SignupComponent: React.FC<Props> = () => {
 							type="password"
 							placeholder="Enter password confirmation"
 							className={classNames(
-								'rounded-r-lg flex-1 appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent',
+								'rounded-r-lg flex-1 appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-sm focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent',
 								{
 									'is-invalid': formik.errors.password_confirmation && formik.touched.password_confirmation
 								}
@@ -226,21 +232,52 @@ const SignupComponent: React.FC<Props> = () => {
 						/>
 					</div>
 					{formik.errors.password_confirmation && formik.touched.password_confirmation && (
-						<div className="text-red-700 mt-1">{formik.errors.password_confirmation}</div>
+						<div className="text-red-700 mt-1 text-sm">{formik.errors.password_confirmation}</div>
 					)}
+				</div>
+				<div className="flex items-center mb-6">
+					<div className="flex">
+						<input
+							id="remember-me"
+							name="remember-me"
+							type="checkbox"
+							className="h-4 w-4 text-purple-600 checked:bg-purple-600 focus:ring-purple-500 border-gray-300 rounded"
+						/>
+						<label htmlFor="remember-me" className="ml-2 block text-sm text-gray-400 -mt-1">
+							By signing up, you agree to our{' '}
+							<LinkComponent className="text-purple-600 font-medium" to="/">
+								Terms
+							</LinkComponent>{' '}
+							,{' '}
+							<LinkComponent className="text-purple-600 font-medium" to="/">
+								Data Policy
+							</LinkComponent>{' '}
+							and{' '}
+							<LinkComponent className="text-purple-600 font-medium" to="/">
+								Cookies Policy
+							</LinkComponent>
+							.
+						</label>
+					</div>
 				</div>
 				<div className="flex w-full">
 					<button
 						type="submit"
 						className={classNames(
-							'py-2 px-4 bg-purple-600 hover:bg-purple-700 focus:ring-purple-500 focus:ring-offset-purple-200 text-white w-full transition ease-in duration-200 text-center text-base font-semibold shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2 rounded-lg',
+							'flex items-center justify-center py-2 px-4 bg-purple-600 hover:bg-purple-700 focus:ring-purple-500 focus:ring-offset-purple-200 text-white w-full transition ease-in duration-200 text-sm font-semibold shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2 rounded-lg',
 							{
 								'cursor-not-allowed disabled:opacity-50': formik.isSubmitting
 							}
 						)}
 						disabled={formik.isSubmitting}
 					>
-						{formik.isSubmitting ? 'Signuping' : 'Signup'}
+						{formik.isSubmitting ? (
+							<>
+								<AiOutlineLoading3Quarters className="animate-spin h-4 w-4 mr-2 font-medium" /> Signing up
+							</>
+						) : (
+							'Sign up'
+						)}
 					</button>
 				</div>
 			</form>
@@ -253,10 +290,10 @@ const SignupComponent: React.FC<Props> = () => {
 				</div>
 			</div>
 			<div className="flex items-center justify-center">
-				<span className="leading-none">
+				<span className="leading-none text-sm">
 					Do you have an account?
-					<LinkComponent className="text-blue-700 ml-1" to="/auth/signin">
-						Signin
+					<LinkComponent className="text-purple-600 ml-1" to="/auth/signin">
+						Sign in
 					</LinkComponent>
 				</span>
 			</div>

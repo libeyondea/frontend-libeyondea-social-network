@@ -101,7 +101,7 @@ const NavbarComponent: React.FC<Props> = () => {
 													})}
 													onClick={() => signout(navigate)}
 												>
-													<span>Logout</span>
+													<span>Sign out</span>
 												</button>
 											)}
 										</Menu.Item>
