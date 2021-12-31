@@ -41,7 +41,7 @@ const SigninCompoment: React.FC<Props> = () => {
 					}
 				})
 				.catch((error) => {
-					console.log(error.response);
+					console.log(error);
 					if (error.response?.status === 422) {
 						setErrors(error.response?.data?.errors);
 					}

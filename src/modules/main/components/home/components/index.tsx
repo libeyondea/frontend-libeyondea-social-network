@@ -24,7 +24,7 @@ const HomeComponent: React.FC<Props> = () => {
 					<PostCardLoading />
 				</div>
 			) : !postList.data.length ? (
-				'Empty Post'
+				<div className="col-span-1">Empty Post</div>
 			) : (
 				postList.data.map((post: Post, index) => (
 					<div className="col-span-1" key={index}>

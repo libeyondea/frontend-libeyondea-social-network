@@ -9,4 +9,7 @@ export interface Post {
 	updated_at: string | null;
 	user: User;
 	images: Image[];
+	total_likes: number;
+	total_comments: number;
+	is_liked: boolean;
 }
