@@ -15,7 +15,8 @@ const config = {
 			SIGNOUT: '/auth/signout',
 			ME: '/auth/me',
 
-			CRUD_POST: '/posts'
+			CRUD_POST: '/posts',
+			CRUD_USER: '/users'
 		}
 	},
 	REQUEST: {
