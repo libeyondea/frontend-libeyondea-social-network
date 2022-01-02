@@ -6,7 +6,7 @@ import useDidMountEffect from 'hooks/useDidMountEffect';
 import { Post } from 'models/post';
 import { postListRequestAction } from 'store/post/actions';
 import { selectPostList } from 'store/post/selectors';
-import AsideComponent from '../../aside';
+import AsideComponent from 'modules/main/components/aside';
 
 type Props = {};
 

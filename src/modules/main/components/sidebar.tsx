@@ -1,6 +1,5 @@
 import classNames from 'classnames';
 import LinkComponent from 'common/components/Link/components';
-import { TableIcon, CogIcon, DotsHorizontalIcon } from '@heroicons/react/outline';
 import { appSidebarRequestAction } from 'store/app/actions';
 import ImageComponent from 'common/components/Image/components';
 import config from 'config';
@@ -8,11 +7,11 @@ import * as routeConstant from 'constants/route';
 import useAppDispatch from 'hooks/useAppDispatch';
 import { useLocation } from 'react-router-dom';
 import { Disclosure } from '@headlessui/react';
-import { ChevronLeftIcon } from '@heroicons/react/outline';
 import NavLinkComponent from 'common/components/NavLink/components';
 import { selectAppSidebar } from 'store/app/selectors';
 import useAppSelector from 'hooks/useAppSelector';
 import { AiFillHome, AiOutlineMenu } from 'react-icons/ai';
+import { HiOutlineBookmark, HiOutlineChevronLeft, HiOutlineCog, HiOutlineDotsCircleHorizontal } from 'react-icons/hi';
 
 type Props = {};
 
@@ -70,7 +69,7 @@ const SidebarComponent: React.FC<Props> = () => {
 										activeClassName="bg-gray-500 hover:bg-gray-500 font-bold text-white"
 										notActiveClassName="hover:bg-gray-900 hover:text-white text-gray-400"
 									>
-										<TableIcon className="w-6 h-6" />
+										<HiOutlineBookmark className="w-6 h-6" />
 										<span className="ml-4">Bookmarks</span>
 									</NavLinkComponent>
 								</li>
@@ -78,10 +77,7 @@ const SidebarComponent: React.FC<Props> = () => {
 								<li>
 									<Disclosure
 										defaultOpen={
-											!![
-												`/${routeConstant.ROUTE_NAME_MAIN}/${routeConstant.ROUTE_NAME_MAIN_SETTING}`,
-												`/${routeConstant.ROUTE_NAME_MAIN}/${routeConstant.ROUTE_NAME_MAIN_OTHER}`
-											]
+											!![`/${routeConstant.ROUTE_NAME_MAIN}/${routeConstant.ROUTE_NAME_MAIN_SETTING}`]
 												.map((href) => href)
 												.includes(location.pathname)
 										}
@@ -89,9 +85,9 @@ const SidebarComponent: React.FC<Props> = () => {
 										{({ open }) => (
 											<>
 												<Disclosure.Button className="inline-flex items-center w-full px-4 py-2 mb-4 text-base transition duration-500 ease-in-out transform rounded-lg focus:shadow-outline hover:bg-gray-900 hover:text-white text-gray-400">
-													<CogIcon className="w-6 h-6" />
-													<span className="ml-4">Settings</span>
-													<ChevronLeftIcon
+													<HiOutlineDotsCircleHorizontal className="w-6 h-6" />
+													<span className="ml-4">More</span>
+													<HiOutlineChevronLeft
 														className={classNames('w-6 h-6 ml-auto', {
 															'transform -rotate-90': open
 														})}
@@ -105,19 +101,8 @@ const SidebarComponent: React.FC<Props> = () => {
 															activeClassName="bg-gray-500 hover:bg-gray-500 font-bold text-white"
 															notActiveClassName="hover:bg-gray-900 hover:text-white text-gray-400"
 														>
-															<CogIcon className="w-6 h-6" />
+															<HiOutlineCog className="w-6 h-6" />
 															<span className="ml-4">Settings</span>
-														</NavLinkComponent>
-													</li>
-													<li>
-														<NavLinkComponent
-															to={`/${routeConstant.ROUTE_NAME_MAIN}/${routeConstant.ROUTE_NAME_MAIN_OTHER}`}
-															className="inline-flex items-center w-full pl-8 pr-4 py-2 text-base transition duration-500 ease-in-out transform rounded-lg focus:shadow-outline"
-															activeClassName="bg-gray-500 hover:bg-gray-500 font-bold text-white"
-															notActiveClassName="hover:bg-gray-900 hover:text-white text-gray-400"
-														>
-															<DotsHorizontalIcon className="w-6 h-6" />
-															<span className="ml-4">Other</span>
 														</NavLinkComponent>
 													</li>
 												</Disclosure.Panel>

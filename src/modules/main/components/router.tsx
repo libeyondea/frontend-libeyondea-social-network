@@ -35,7 +35,7 @@ const MainRouter: RouteObject[] = [
 		)
 	},
 	{
-		path: `${routeConstant.ROUTE_NAME_USER}/:userName`,
+		path: `${routeConstant.ROUTE_NAME_USER}/:user_name`,
 		element: (
 			<Suspense fallback={null}>
 				<UserComponent />

@@ -1,8 +1,10 @@
+import CardComponent from 'common/components/Card/components';
+
 type Props = {};
 
 const PostCardLoading: React.FC<Props> = () => {
 	return (
-		<div className="shadow-lg rounded-md bg-white w-full animate-pulse">
+		<CardComponent className="p-0 animate-pulse">
 			<div className="flex items-center flex-grow flex-shrink p-4">
 				<div className="mx-auto rounded-full h-10 w-10 bg-gray-300"></div>
 				<div className="flex items-center flex-grow flex-shrink ml-4">
@@ -10,7 +12,7 @@ const PostCardLoading: React.FC<Props> = () => {
 				</div>
 			</div>
 			<div className="bg-gray-300 h-80 w-full rounded-b-md"></div>
-		</div>
+		</CardComponent>
 	);
 };
 

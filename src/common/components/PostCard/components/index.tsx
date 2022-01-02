@@ -5,6 +5,7 @@ import { Post } from 'models/post';
 import time from 'helpers/time';
 import LinkComponent from 'common/components/Link/components';
 import * as routeConstant from 'constants/route';
+import CardComponent from 'common/components/Card/components';
 
 type Props = {
 	post: Post;
@@ -12,7 +13,7 @@ type Props = {
 
 const PostCardComponent: React.FC<Props> = ({ post }) => {
 	return (
-		<div className="shadow-lg rounded-md bg-white w-full">
+		<CardComponent className="p-0">
 			<div className="flex items-center justify-between p-4">
 				<div className="flex items-center flex-grow flex-shrink">
 					<LinkComponent
@@ -76,7 +77,7 @@ const PostCardComponent: React.FC<Props> = ({ post }) => {
 					</LinkComponent>
 				</div>
 			</div>
-		</div>
+		</CardComponent>
 	);
 };
 

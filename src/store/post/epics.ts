@@ -15,7 +15,6 @@ export const postListEpic = (action$: Observable<Action>): Observable<Action> =>
 					}
 				}),
 				catchError((error) => {
-					console.log('error: ', error);
 					return of(error);
 				})
 			);

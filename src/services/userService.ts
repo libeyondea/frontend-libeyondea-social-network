@@ -4,8 +4,8 @@ import { User } from 'models/user';
 import { ResponseData } from 'models/response';
 
 const userService = {
-	user: () => {
-		return http.get<ResponseData<User>>(config.API.END_POINT.CRUD_USER);
+	single: (user_name: string) => {
+		return http.get<ResponseData<User>>(`${config.API.END_POINT.CRUD_USER}/${user_name}`);
 	}
 };
 
