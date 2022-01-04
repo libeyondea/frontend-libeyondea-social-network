@@ -24,7 +24,7 @@ const SplashComponent: React.FC<Props> = () => {
 
 	useDidMountEffect(() => {
 		dispatch(appInitializedRequestAction(true));
-		const accessToken = getCookie(cookiesConstant.COOKIES_KEY_ACCESS_TOKEN);
+		const token = getCookie(cookiesConstant.COOKIES_KEY_TOKEN);
 		const initialUrl = from?.pathname;
 
 		if (isAuth) {
@@ -33,15 +33,15 @@ const SplashComponent: React.FC<Props> = () => {
 			} else {
 				navigate(`/${routeConstant.ROUTE_NAME_MAIN}/${routeConstant.ROUTE_NAME_MAIN_HOME}`, { replace: true });
 			}
-		} else if (accessToken) {
+		} else if (token) {
 			authService
-				.me(accessToken)
+				.me(token)
 				.then((response) => {
 					if (!response.data.success) {
 						signout(navigate);
 						return;
 					}
-					dispatch(authCurrentRequestAction(response.data.data, accessToken));
+					dispatch(authCurrentRequestAction(response.data.data, token));
 					if (initialUrl) {
 						navigate(initialUrl, { replace: true });
 					} else {

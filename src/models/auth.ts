@@ -17,6 +17,5 @@ export interface Signup {
 export interface Me extends User {}
 
 export interface Token {
-	access_token: string;
-	[key: string]: any;
+	token: string;
 }

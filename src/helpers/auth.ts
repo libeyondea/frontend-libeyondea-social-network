@@ -7,15 +7,15 @@ import store from 'store';
 import { authCurrentRequestAction } from 'store/auth/actions';
 
 export const signout = (navigate?: NavigateFunction) => {
-	const accessToken = store.getState().authState.current.token;
-	if (accessToken) {
+	const token = store.getState().authState.current.token;
+	if (token) {
 		authService
-			.signout(accessToken)
+			.signout(token)
 			.then(() => {})
 			.catch(() => {})
 			.finally(() => {});
 	}
-	removeCookie(cookiesConstant.COOKIES_KEY_ACCESS_TOKEN);
+	removeCookie(cookiesConstant.COOKIES_KEY_TOKEN);
 	store.dispatch(authCurrentRequestAction(null, null));
 	navigate && navigate(`/${routeConstant.ROUTE_NAME_AUTH}/${routeConstant.ROUTE_NAME_AUTH_SIGNIN}`);
 };

@@ -27,15 +27,15 @@ const SigninCompoment: React.FC<Props> = () => {
 			password: ''
 		},
 		validationSchema: Yup.object({
-			user_name: Yup.string().required('User name is required'),
-			password: Yup.string().required('Password is required')
+			user_name: Yup.string().required('The user name is required'),
+			password: Yup.string().required('The password is required')
 		}),
 		onSubmit: (values, { setSubmitting, setErrors }) => {
 			authService
 				.signin(values)
 				.then((response) => {
 					if (response.data.success) {
-						setCookie(cookiesConstant.COOKIES_KEY_ACCESS_TOKEN, response.data.data.access_token, {
+						setCookie(cookiesConstant.COOKIES_KEY_TOKEN, response.data.data.token, {
 							expires: config.AUTH_DATA.EXPIRED_TIME
 						});
 						navigate(routeConstant.ROUTE_NAME_SPLASH, { state: { from: from } });

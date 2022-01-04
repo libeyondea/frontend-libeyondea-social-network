@@ -17,9 +17,9 @@ const instance = axios.create({
 
 instance.interceptors.request.use(
 	(config: AxiosRequestConfig) => {
-		const accessToken = store.getState().authState.current.token;
-		if (config.headers && !config.headers.Authorization && accessToken) {
-			config.headers.Authorization = `Bearer ${accessToken}`;
+		const token = store.getState().authState.current.token;
+		if (config.headers && !config.headers.Authorization && token) {
+			config.headers.Authorization = `Bearer ${token}`;
 		}
 		return config;
 	},
@@ -37,7 +37,7 @@ instance.interceptors.response.use(
 		if (axios.isAxiosError(error)) {
 			toastify.error(error.response?.data.message);
 			if (error.response?.status === 401) {
-				removeCookie(cookiesConstant.COOKIES_KEY_ACCESS_TOKEN);
+				removeCookie(cookiesConstant.COOKIES_KEY_TOKEN);
 				store.dispatch(authCurrentRequestAction(null, null));
 			}
 		} else {
