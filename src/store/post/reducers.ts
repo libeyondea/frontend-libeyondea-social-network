@@ -13,8 +13,7 @@ const initialState: PostState = {
 		pagination: {
 			total: 0
 		},
-		is_loading: false,
-		error: null
+		is_loading: false
 	}
 };
 
