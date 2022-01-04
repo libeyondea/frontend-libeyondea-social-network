@@ -6,12 +6,15 @@ import store from 'store';
 import Root from './root';
 import reportWebVitals from './reportWebVitals';
 import 'styles/index.scss';
+import 'react-toastify/dist/ReactToastify.min.css';
+import { ToastContainer } from 'react-toastify';
 
 ReactDOM.render(
 	<React.StrictMode>
 		<Provider store={store}>
 			<Router>
 				<Root />
+				<ToastContainer />
 			</Router>
 		</Provider>
 	</React.StrictMode>,

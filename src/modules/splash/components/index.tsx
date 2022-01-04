@@ -3,7 +3,7 @@ import { appInitializedRequestAction } from 'store/app/actions';
 import { authCurrentRequestAction } from 'store/auth/actions';
 import ImageComponent from 'common/components/Image/components';
 import config from 'config';
-import { selectAuthCurrent } from 'store/auth/selectors';
+import { selectIsAuth } from 'store/auth/selectors';
 import * as cookiesConstant from 'constants/cookies';
 import * as routeConstant from 'constants/route';
 import useAppDispatch from 'hooks/useAppDispatch';
@@ -20,14 +20,14 @@ const SplashComponent: React.FC<Props> = () => {
 	const location = useLocation();
 	const from = (location.state as { from: Location })?.from;
 	const dispatch = useAppDispatch();
-	const authCurrent = useAppSelector(selectAuthCurrent);
+	const isAuth = useAppSelector(selectIsAuth);
 
 	useDidMountEffect(() => {
 		dispatch(appInitializedRequestAction(true));
 		const accessToken = getCookie(cookiesConstant.COOKIES_KEY_ACCESS_TOKEN);
 		const initialUrl = from?.pathname;
 
-		if (authCurrent) {
+		if (isAuth) {
 			if (initialUrl) {
 				navigate(initialUrl, { replace: true });
 			} else {
@@ -35,13 +35,13 @@ const SplashComponent: React.FC<Props> = () => {
 			}
 		} else if (accessToken) {
 			authService
-				.me()
+				.me(accessToken)
 				.then((response) => {
 					if (!response.data.success) {
 						signout(navigate);
 						return;
 					}
-					dispatch(authCurrentRequestAction(response.data.data));
+					dispatch(authCurrentRequestAction(response.data.data, accessToken));
 					if (initialUrl) {
 						navigate(initialUrl, { replace: true });
 					} else {
@@ -51,11 +51,10 @@ const SplashComponent: React.FC<Props> = () => {
 					}
 				})
 				.catch((error) => {
-					console.log(error);
 					signout(navigate);
 				});
 		} else {
-			dispatch(authCurrentRequestAction(null));
+			dispatch(authCurrentRequestAction(null, null));
 			if (initialUrl) {
 				navigate(initialUrl, { replace: true });
 			} else {

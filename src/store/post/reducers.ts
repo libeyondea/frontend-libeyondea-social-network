@@ -22,7 +22,7 @@ const postReducer = createReducer(initialState, (builder) => {
 		...state,
 		list: {
 			...state.list,
-			is_loading: true
+			is_loading: !state.list.data.length
 		}
 	}));
 	builder.addCase(postListSuccessAction, (state, action) => ({

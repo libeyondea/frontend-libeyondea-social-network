@@ -1,7 +1,10 @@
-import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
+import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios';
 import config from 'config';
-import { getCookie } from './cookies';
+import store from 'store';
+import { removeCookie } from 'helpers/cookies';
 import * as cookiesConstant from 'constants/cookies';
+import toastify from './toastify';
+import { authCurrentRequestAction } from 'store/auth/actions';
 
 const instance = axios.create({
 	baseURL: config.API.URL.API_URL,
@@ -14,13 +17,14 @@ const instance = axios.create({
 
 instance.interceptors.request.use(
 	(config: AxiosRequestConfig) => {
-		const accessToken = getCookie(cookiesConstant.COOKIES_KEY_ACCESS_TOKEN);
+		const accessToken = store.getState().authState.current.token;
 		if (config.headers && !config.headers.Authorization && accessToken) {
 			config.headers.Authorization = `Bearer ${accessToken}`;
 		}
 		return config;
 	},
 	(error) => {
+		toastify.error();
 		return Promise.reject(error);
 	}
 );
@@ -29,7 +33,16 @@ instance.interceptors.response.use(
 	(response: AxiosResponse) => {
 		return response;
 	},
-	(error) => {
+	(error: Error | AxiosError) => {
+		if (axios.isAxiosError(error)) {
+			toastify.error(error.response?.data.message);
+			if (error.response?.status === 401) {
+				removeCookie(cookiesConstant.COOKIES_KEY_ACCESS_TOKEN);
+				store.dispatch(authCurrentRequestAction(null, null));
+			}
+		} else {
+			toastify.error();
+		}
 		return Promise.reject(error);
 	}
 );

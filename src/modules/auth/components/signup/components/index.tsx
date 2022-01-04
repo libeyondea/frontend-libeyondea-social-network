@@ -9,6 +9,7 @@ import authService from 'services/authService';
 import { FaRegUser } from 'react-icons/fa';
 import { MdLockOutline, MdMailOutline } from 'react-icons/md';
 import { AiOutlineLoading3Quarters } from 'react-icons/ai';
+import axios, { AxiosError } from 'axios';
 
 type Props = {};
 
@@ -52,10 +53,11 @@ const SignupComponent: React.FC<Props> = () => {
 						navigate(`/${routeConstant.ROUTE_NAME_AUTH}/${routeConstant.ROUTE_NAME_AUTH_SIGNIN}`);
 					}
 				})
-				.catch((error) => {
-					console.log(error.response);
-					if (error.response?.status === 422) {
-						setErrors(error.response?.data?.errors);
+				.catch((error: Error | AxiosError) => {
+					if (axios.isAxiosError(error)) {
+						if (error.response?.status === 422) {
+							setErrors(error.response.data.errors);
+						}
 					}
 				})
 				.finally(() => {

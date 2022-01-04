@@ -9,14 +9,12 @@ import { selectAppSidebar } from 'store/app/selectors';
 import { selectAuthCurrent } from 'store/auth/selectors';
 import useAppDispatch from 'hooks/useAppDispatch';
 import useAppSelector from 'hooks/useAppSelector';
-import { useNavigate } from 'react-router-dom';
 import { AiOutlineMenu } from 'react-icons/ai';
 import * as routeConstant from 'constants/route';
 
 type Props = {};
 
 const NavbarComponent: React.FC<Props> = () => {
-	const navigate = useNavigate();
 	const dispatch = useAppDispatch();
 	const appSidebar = useAppSelector(selectAppSidebar);
 	const authCurrent = useAppSelector(selectAuthCurrent);
@@ -50,8 +48,8 @@ const NavbarComponent: React.FC<Props> = () => {
 									<Menu.Button className="flex items-center justify-center w-full rounded-md px-2 py-1 text-sm font-medium text-gray-700 hover:bg-gray-100 focus:outline-none">
 										<ImageComponent
 											className="rounded-full h-8 w-8"
-											src={authCurrent?.avatar_url}
-											alt={authCurrent?.user_name}
+											src={authCurrent.user?.avatar_url}
+											alt={authCurrent.user?.user_name}
 										/>
 									</Menu.Button>
 								</div>
@@ -68,7 +66,7 @@ const NavbarComponent: React.FC<Props> = () => {
 										<Menu.Item>
 											{({ active }) => (
 												<LinkComponent
-													to={`/${routeConstant.ROUTE_NAME_MAIN}/${routeConstant.ROUTE_NAME_USER}/${authCurrent?.user_name}`}
+													to={`/${routeConstant.ROUTE_NAME_MAIN}/${routeConstant.ROUTE_NAME_USER}/${authCurrent.user?.user_name}`}
 													className={classNames('block px-4 py-2 rounded-md text-md', {
 														'bg-gray-300 text-gray-700': active,
 														'text-gray-900': !active
@@ -99,7 +97,7 @@ const NavbarComponent: React.FC<Props> = () => {
 														'bg-gray-300 text-gray-700': active,
 														'text-gray-900': !active
 													})}
-													onClick={() => signout(navigate)}
+													onClick={() => signout()}
 												>
 													<span>Sign out</span>
 												</button>

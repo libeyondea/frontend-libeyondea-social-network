@@ -1,4 +1,4 @@
-import { selectAuthCurrent } from 'store/auth/selectors';
+import { selectIsAuth } from 'store/auth/selectors';
 import { selectAppInitialized } from 'store/app/selectors';
 import * as routeConstant from 'constants/route';
 import useAppSelector from 'hooks/useAppSelector';
@@ -10,14 +10,15 @@ type Props = {
 
 const AccessControl: React.FC<Props> = ({ children }) => {
 	const location = useLocation();
-	const authCurrent = useAppSelector(selectAuthCurrent);
+	const isAuth = useAppSelector(selectIsAuth);
 	const appInitialized = useAppSelector(selectAppInitialized);
+	console.log('AccessControl');
 
 	if (location.pathname !== routeConstant.ROUTE_NAME_SPLASH && !appInitialized) {
 		return <Navigate to={`${routeConstant.ROUTE_NAME_SPLASH}`} state={{ from: location }} />;
-	} else if (location.pathname.indexOf(routeConstant.ROUTE_NAME_AUTH) > -1 && authCurrent) {
+	} else if (location.pathname.indexOf(routeConstant.ROUTE_NAME_AUTH) > -1 && isAuth) {
 		return <Navigate to={`/${routeConstant.ROUTE_NAME_MAIN}/${routeConstant.ROUTE_NAME_MAIN_HOME}`} />;
-	} else if (location.pathname.indexOf(routeConstant.ROUTE_NAME_MAIN) > -1 && !authCurrent) {
+	} else if (location.pathname.indexOf(routeConstant.ROUTE_NAME_MAIN) > -1 && !isAuth) {
 		return (
 			<Navigate
 				to={`/${routeConstant.ROUTE_NAME_AUTH}/${routeConstant.ROUTE_NAME_AUTH_SIGNIN}`}

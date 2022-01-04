@@ -1,11 +1,5 @@
 import { createAction } from '@reduxjs/toolkit';
-
-export const actionTypes = {
-	APP_INITIALIZED_REQUEST: 'APP_INITIALIZED_REQUEST',
-	APP_INITIALIZED_SUCCESS: 'APP_INITIALIZED_SUCCESS',
-	APP_SIDEBAR_REQUEST: 'APP_SIDEBAR_REQUEST',
-	APP_SIDEBAR_SUCCESS: 'APP_SIDEBAR_SUCCESS'
-};
+import * as actionTypes from './actionTypes';
 
 export const appInitializedRequestAction = createAction(actionTypes.APP_INITIALIZED_REQUEST, (initialized: boolean) => ({
 	payload: {

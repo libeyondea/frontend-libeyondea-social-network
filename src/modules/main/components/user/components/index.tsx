@@ -1,14 +1,13 @@
 import CardComponent from 'common/components/Card/components';
 import useAppDispatch from 'hooks/useAppDispatch';
 import useAppSelector from 'hooks/useAppSelector';
-import useDidMountEffect from 'hooks/useDidMountEffect';
 import { useParams } from 'react-router-dom';
 import { userSingleRequestAction } from 'store/user/actions';
 import { selectUserSingle } from 'store/user/selectors';
 import UserProfileCardLoading from 'common/components/UserProfileCardLoading/components';
 import ImageComponent from 'common/components/Image/components';
 import { selectAuthCurrent } from 'store/auth/selectors';
-import useDidUpdateEffect from 'hooks/useDidUpdateEffect';
+import { useEffect } from 'react';
 
 type Props = {};
 
@@ -18,17 +17,11 @@ const UserComponent: React.FC<Props> = () => {
 	const authCurrent = useAppSelector(selectAuthCurrent);
 	const userSingle = useAppSelector(selectUserSingle);
 
-	useDidMountEffect(() => {
+	useEffect(() => {
 		if (params.user_name) {
 			dispatch(userSingleRequestAction(params.user_name));
 		}
-	});
-
-	useDidUpdateEffect(() => {
-		if (params.user_name) {
-			dispatch(userSingleRequestAction(params.user_name));
-		}
-	}, [params.user_name]);
+	}, [dispatch, params.user_name]);
 
 	return (
 		<>
@@ -51,7 +44,7 @@ const UserComponent: React.FC<Props> = () => {
 						<p className="text-gray-400 text-xl mb-4">
 							{userSingle.data?.first_name} {userSingle.data?.last_name}
 						</p>
-						{authCurrent?.user_name !== userSingle.data.user_name && (
+						{authCurrent.user?.user_name !== userSingle.data.user_name && (
 							<button
 								type="submit"
 								className="flex items-center justify-center py-2 px-4 mb-4 bg-purple-600 hover:bg-purple-700 focus:ring-purple-500 focus:ring-offset-purple-200 text-white transition ease-in duration-200 text-sm font-semibold shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2 rounded-lg"
