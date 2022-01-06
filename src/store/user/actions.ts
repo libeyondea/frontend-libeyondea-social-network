@@ -13,3 +13,5 @@ export const userSingleSuccessAction = createAction(actionTypes.USER_SINGLE_SUCC
 		data
 	}
 }));
+
+export const userSingleResetAction = createAction(actionTypes.USER_SINGLE_RESET);

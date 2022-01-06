@@ -5,7 +5,6 @@ import { lazy, Suspense } from 'react';
 import type { RouteObject } from 'react-router-dom';
 
 const HomeComponent = lazy(() => import('./home/components'));
-const BookmarkComponent = lazy(() => import('./bookmark/components'));
 const SettingComponent = lazy(() => import('./setting/components'));
 const UserComponent = lazy(() => import('./user/components'));
 
@@ -19,14 +18,6 @@ const MainRouter: RouteObject[] = [
 		)
 	},
 	{
-		path: `${routeConstant.ROUTE_NAME_MAIN_BOOKMARK}`,
-		element: (
-			<Suspense fallback={null}>
-				<BookmarkComponent />
-			</Suspense>
-		)
-	},
-	{
 		path: `${routeConstant.ROUTE_NAME_MAIN_SETTING}`,
 		element: (
 			<Suspense fallback={null}>
@@ -35,7 +26,7 @@ const MainRouter: RouteObject[] = [
 		)
 	},
 	{
-		path: `${routeConstant.ROUTE_NAME_USER}/:user_name`,
+		path: `${routeConstant.ROUTE_NAME_USER}/:user_name/*`,
 		element: (
 			<Suspense fallback={null}>
 				<UserComponent />

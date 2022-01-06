@@ -12,6 +12,7 @@ import { selectAppSidebar } from 'store/app/selectors';
 import useAppSelector from 'hooks/useAppSelector';
 import { AiFillHome, AiOutlineMenu } from 'react-icons/ai';
 import { HiOutlineBookmark, HiOutlineChevronLeft, HiOutlineCog, HiOutlineDotsCircleHorizontal } from 'react-icons/hi';
+import { selectAuthCurrent } from 'store/auth/selectors';
 
 type Props = {};
 
@@ -19,6 +20,7 @@ const SidebarComponent: React.FC<Props> = () => {
 	const location = useLocation();
 	const dispatch = useAppDispatch();
 	const appSidebar = useAppSelector(selectAppSidebar);
+	const authCurrent = useAppSelector(selectAuthCurrent);
 
 	return (
 		<div className="sidebar flex">
@@ -64,7 +66,7 @@ const SidebarComponent: React.FC<Props> = () => {
 								</li>
 								<li>
 									<NavLinkComponent
-										to={`/${routeConstant.ROUTE_NAME_MAIN}/${routeConstant.ROUTE_NAME_MAIN_BOOKMARK}`}
+										to={`/${routeConstant.ROUTE_NAME_MAIN}/${routeConstant.ROUTE_NAME_USER}/${authCurrent.user?.user_name}/${routeConstant.ROUTE_NAME_MAIN_USER_BOOKMARK}`}
 										className="inline-flex items-center w-full px-4 py-2 text-base transition duration-500 ease-in-out transform rounded-lg focus:shadow-outline"
 										activeClassName="bg-gray-500 hover:bg-gray-500 font-bold text-white"
 										notActiveClassName="hover:bg-gray-900 hover:text-white text-gray-400"

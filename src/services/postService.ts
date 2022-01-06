@@ -9,6 +9,12 @@ const postService = {
 			page: page,
 			page_size: page_size
 		});
+	},
+	listByUser: (user_name: string, page: number = 1, page_size: number = 10) => {
+		return http.get<ResponseDataPagination<Post[]>>(`${config.API.END_POINT.CRUD_USER}/${user_name}/posts`, {
+			page: page,
+			page_size: page_size
+		});
 	}
 };
 

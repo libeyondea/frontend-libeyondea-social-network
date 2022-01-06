@@ -15,6 +15,7 @@ const NavLinkComponent: React.FC<Props> = ({ className, activeClassName, notActi
 				...(notActiveClassName && { [notActiveClassName]: !isActive })
 			})
 		}
+		end
 		{...props}
 	>
 		{children}
