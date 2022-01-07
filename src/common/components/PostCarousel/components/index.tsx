@@ -47,7 +47,7 @@ const PostCarouselComponent: React.FC<Props> = ({ images }) => {
 				{imageSourcesToDisplay.map((image, index) => (
 					<ImageComponent
 						src={image.url}
-						className={classNames('max-h-96 w-full object-cover', { block: index === 0, hidden: index !== 0 })}
+						className={classNames('w-full object-cover', { block: index === 0, hidden: index !== 0 })}
 						key={index}
 					/>
 				))}

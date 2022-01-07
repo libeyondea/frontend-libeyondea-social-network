@@ -9,7 +9,7 @@ const PostUserComponent = lazy(() => import('./post/components'));
 
 const UserRouter: RouteObject[] = [
 	{
-		path: ``,
+		path: '',
 		element: (
 			<Suspense fallback={null}>
 				<PostUserComponent />

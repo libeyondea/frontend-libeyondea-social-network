@@ -85,7 +85,7 @@ const UserComponent: React.FC<Props> = () => {
 						>
 							Posts
 						</NavLinkComponent>
-						{authCurrent.user?.user_name === userSingle.data?.user_name && (
+						{authCurrent.user?.user_name === params.user_name && (
 							<NavLinkComponent
 								to={routeConstant.ROUTE_NAME_MAIN_USER_BOOKMARK}
 								className="font-medium"

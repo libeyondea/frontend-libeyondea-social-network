@@ -20,14 +20,14 @@ const initialState: PostState = {
 		pagination: {
 			total: 0
 		},
-		is_loading: false
+		is_loading: true
 	},
 	listByUser: {
 		data: [],
 		pagination: {
 			total: 0
 		},
-		is_loading: false
+		is_loading: true
 	}
 };
 

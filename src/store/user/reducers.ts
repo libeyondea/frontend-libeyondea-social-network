@@ -10,7 +10,7 @@ type UserState = {
 const initialState: UserState = {
 	single: {
 		data: null,
-		is_loading: false
+		is_loading: true
 	}
 };
 

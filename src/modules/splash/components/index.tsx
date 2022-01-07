@@ -21,6 +21,7 @@ const SplashComponent: React.FC<Props> = () => {
 	const from = (location.state as { from: Location })?.from;
 	const dispatch = useAppDispatch();
 	const isAuth = useAppSelector(selectIsAuth);
+	console.log('SplashComponent');
 
 	useDidMountEffect(() => {
 		dispatch(appInitializedRequestAction(true));
