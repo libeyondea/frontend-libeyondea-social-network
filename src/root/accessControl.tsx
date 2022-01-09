@@ -15,7 +15,7 @@ const AccessControl: React.FC<Props> = ({ children }) => {
 	const appInitialized = useAppSelector(selectAppInitialized);
 	console.log('AccessControl');
 
-	if (location.pathname !== routeConstant.ROUTE_NAME_SPLASH && !appInitialized) {
+	if (!appInitialized) {
 		return <Navigate to={`${routeConstant.ROUTE_NAME_SPLASH}`} state={{ from: location }} />;
 	} else if (location.pathname.indexOf(`/${routeConstant.ROUTE_NAME_AUTH}`) > -1 && isAuth) {
 		return <Navigate to={`/${routeConstant.ROUTE_NAME_MAIN}/${routeConstant.ROUTE_NAME_MAIN_HOME}`} />;
