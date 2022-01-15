@@ -16,7 +16,8 @@ const config = {
 			ME: '/auth/me',
 
 			CRUD_POST: '/posts',
-			CRUD_USER: '/users'
+			CRUD_USER: '/users',
+			IMAGE_UPLOAD: '/images/upload'
 		}
 	},
 	REQUEST: {
